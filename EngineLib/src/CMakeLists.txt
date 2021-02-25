@@ -7,7 +7,7 @@ include_directories(${PROJECT_SOURCE_DIR}/EngineLib/include)
 
 include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/include)
 link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL2)
-link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL_image)
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL_image-2.0.5)
 link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL_ttf)
 
 set(SOURCE_FILES library.cpp)
