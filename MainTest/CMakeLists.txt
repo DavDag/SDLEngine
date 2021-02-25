@@ -1,15 +1,25 @@
 cmake_minimum_required(VERSION 3.17)
 
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -lmingw32")
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 include_directories(${PROJECT_SOURCE_DIR}/EngineLib/include)
 
-include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/include)
-link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL2)
-link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL_image-2.0.5)
-link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2/lib/SDL_ttf)
+include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2-2.0.14/include/SDL2)
+include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_image-2.0.5/include/SDL2)
+include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_mixer-2.0.4/include/SDL2)
+include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_net-2.0.1/include/SDL2)
+include_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_ttf-2.0.15/include/SDL2)
+
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2-2.0.14/lib)
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_image-2.0.5/lib)
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_mixer-2.0.4/lib)
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_net-2.0.1/lib)
+link_directories(${PROJECT_SOURCE_DIR}/EngineLib/ext/SDL2_ttf-2.0.15/lib)
 
 add_executable(MainTest main.cpp)
 
-target_link_libraries(MainTest EngineLib SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(MainTest EngineLib SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf)
