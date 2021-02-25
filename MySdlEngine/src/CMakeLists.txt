@@ -20,6 +20,9 @@ link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_mixer-2.0.4/lib)
 link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_net-2.0.1/lib)
 link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_ttf-2.0.15/lib)
 
-add_executable(MainTest main.cpp)
+set(SOURCE_FILES library.cpp)
+add_library(MSE_lib SHARED ${SOURCE_FILES})
 
-target_link_libraries(MainTest MSE_lib SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf)
+set_target_properties(MSE_lib PROPERTIES PREFIX "")
+
+target_link_libraries(MSE_lib SDL2 SDL2_image SDL2_mixer SDL2_net SDL2_ttf)
