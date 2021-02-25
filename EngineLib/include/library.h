@@ -1,6 +1,6 @@
 #ifndef SDLENGINE_LIBRARY_H
 #define SDLENGINE_LIBRARY_H
 
-void hello();
+int hello();
 
 #endif //SDLENGINE_LIBRARY_H

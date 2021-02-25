@@ -1,6 +1,6 @@
 #include "library.h"
 
-int main() {
+int WinMain() {
     hello();
     return 0;
 }
