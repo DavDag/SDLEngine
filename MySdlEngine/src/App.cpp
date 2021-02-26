@@ -12,12 +12,17 @@
 
 namespace MSE {
 
+    std::shared_ptr<App> App::create(const std::string &title, AppConfig configs) {
+        return std::make_shared<App>(App(title, configs));
+    }
+
     App::App(const std::string &title, AppConfig configs) {
         _title = title;
         _configs = configs;
         _window = nullptr;
         _windowSurface = nullptr;
-        _isRunning = true;
+        _isRunning = false;
+        _quit = false;
     }
 
     bool App::init() {
@@ -26,7 +31,7 @@ namespace MSE {
         // Initialize SDL
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
             printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-            _isRunning = false;
+            _quit = true;
             return false;
         }
 
@@ -41,7 +46,7 @@ namespace MSE {
         // Error check
         if (_window == nullptr) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-            _isRunning = false;
+            _quit = true;
             return false;
         }
 
@@ -50,39 +55,82 @@ namespace MSE {
         // Error check
         if (_windowSurface == nullptr) {
             printf("Window's surface could not be created! SDL_Error: %s\n", SDL_GetError());
-            _isRunning = false;
+            _quit = true;
             return false;
         }
 
         // Initialization completed
+        _quit = false;
         return true;
     }
 
     void App::run() {
         if (_isRunning) return;
-
-        // Event
-        SDL_Event e;
+        _isRunning = true;
 
         // Main loop
-        while (_isRunning) {
+        SDL_Event e;
+        Clock fpsClock;
+        Clock frameClock;
+        while (!_quit) {
+            // Restart clock for frame time
+            frameClock.restart();
+
+            // Check for empty queue
+            if (_states.empty()) {
+                printf("Application error. Unable to retrieve current state. Empty queue\n");
+                quit();
+
+                // Trick to get a clean exit
+                continue;
+            }
+
+            // Current state
+            auto state = _states.top();
+
             // 1. Handle events
             while (SDL_PollEvent(&e) != 0) {
                 // Quit
                 if (e.type == SDL_EventType::SDL_QUIT) {
-                    _isRunning = false;
+                    quit();
                 }
-                // Others
+                // Forward to state
+                state->onEvent(e);
             }
 
+            // Calc delta time
+            float dt = fpsClock.restart() / 1000.f;
+
             // 2. Update
+            state->onUpdate(dt);
 
             // 3. Draw
+            state->onDraw();
             SDL_UpdateWindowSurface(_window);
+
+            // Frame cap
+            float realFrameTime = frameClock.restart() / 1000.f;
+            float reqFrameTime = (1000.f / (float) _configs.fps_cap);
+            if (_configs.fps_cap != 0 && realFrameTime < reqFrameTime) {
+                SDL_Delay(reqFrameTime - realFrameTime);
+            }
         }
 
         // Quit safely
+        _isRunning = false;
         close();
+    }
+
+    void App::updateTitle(const std::string &newTitle) {
+        SDL_SetWindowTitle(_window, newTitle.c_str());
+    }
+
+    void App::updateFpsCap(int newFpsCap) {
+        _configs.fps_cap = newFpsCap;
+    }
+
+    void App::quit() {
+        _quit = true;
     }
 
     void App::close() {

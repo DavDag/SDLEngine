@@ -17,13 +17,18 @@ namespace MSE {
 
     const int DefaultAppFlags = SDL_WindowFlags::SDL_WINDOW_SHOWN | SDL_WindowFlags::SDL_WINDOW_RESIZABLE | SDL_WindowFlags::SDL_WINDOW_OPENGL;
 
+    /**
+     * App configs
+     *
+     * Used to create an instance of the app.
+     */
     struct AppConfig {
-        Uint32 window_size_x = 1024;                    // Window size
-        Uint32 window_size_y = 600;                     //
-        Uint32 window_pos_x = SDL_WINDOWPOS_UNDEFINED;  // Window starting position
-        Uint32 window_pos_y = SDL_WINDOWPOS_UNDEFINED;  //
-        Uint8 fps_cap = 0;                              // FPS cap (0 for unlimited fps)
-        int flags = DefaultAppFlags;                    // Window flags
+        int window_size_x = 1024;                   // Window size
+        int window_size_y = 600;                    //
+        int window_pos_x = SDL_WINDOWPOS_UNDEFINED; // Window starting position
+        int window_pos_y = SDL_WINDOWPOS_UNDEFINED; //
+        int fps_cap = 0;                            // FPS cap (0 for unlimited fps)
+        Uint32 flags = DefaultAppFlags;             // Window flags
     };
 
 } // MSE
