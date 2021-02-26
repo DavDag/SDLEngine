@@ -20,7 +20,7 @@ link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_mixer-2.0.4/lib)
 link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_net-2.0.1/lib)
 link_directories(${PROJECT_SOURCE_DIR}/MySdlEngine/ext/SDL2_ttf-2.0.15/lib)
 
-set(SOURCE_FILES library.cpp)
+set(SOURCE_FILES ../include/states/BaseState.hpp ../include/App.hpp ../include/AppConfig.hpp App.cpp)
 add_library(MSE_lib SHARED ${SOURCE_FILES})
 
 set_target_properties(MSE_lib PROPERTIES PREFIX "")
