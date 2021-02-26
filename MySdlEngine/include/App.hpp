@@ -21,7 +21,7 @@
 
 namespace MSE {
 
-    class App {
+    class App : public std::enable_shared_from_this<App> {
 
     public:
         explicit App(const std::string &title, AppConfig configs);
@@ -32,10 +32,12 @@ namespace MSE {
 
         template<class T, std::enable_if_t<std::is_base_of<BaseState, T>::value, bool> = true>
         void push() {
-            // TODO
+            _states.push(std::make_shared<T>());
         }
 
-        void pop();
+        void pop() {
+            _states.pop();
+        }
 
     private:
         void close();
@@ -46,7 +48,7 @@ namespace MSE {
         SDL_Window *_window;
         SDL_Surface *_windowSurface;
 
-        bool _quit;
+        bool _isRunning;
         std::queue<std::shared_ptr<BaseState>> _states;
     };
 

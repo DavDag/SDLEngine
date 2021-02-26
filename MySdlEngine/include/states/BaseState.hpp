@@ -10,12 +10,15 @@
 #ifndef SDLENGINE_BASESTATE_HPP
 #define SDLENGINE_BASESTATE_HPP
 
+#include <memory>
+
 namespace MSE {
+
+    class App;
 
     class BaseState {
 
     public:
-
         virtual void onCreate() = 0;
         virtual void onResume() = 0;
 

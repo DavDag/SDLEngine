@@ -17,14 +17,16 @@ namespace MSE {
         _configs = configs;
         _window = nullptr;
         _windowSurface = nullptr;
-        _quit = false;
+        _isRunning = true;
     }
 
     bool App::init() {
+        if (_isRunning) return false;
+
         // Initialize SDL
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
             printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-            _quit = true;
+            _isRunning = false;
             return false;
         }
 
@@ -39,7 +41,7 @@ namespace MSE {
         // Error check
         if (_window == nullptr) {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-            _quit = true;
+            _isRunning = false;
             return false;
         }
 
@@ -48,7 +50,7 @@ namespace MSE {
         // Error check
         if (_windowSurface == nullptr) {
             printf("Window's surface could not be created! SDL_Error: %s\n", SDL_GetError());
-            _quit = true;
+            _isRunning = false;
             return false;
         }
 
@@ -57,16 +59,18 @@ namespace MSE {
     }
 
     void App::run() {
+        if (_isRunning) return;
+
         // Event
         SDL_Event e;
 
         // Main loop
-        while (!_quit) {
+        while (_isRunning) {
             // 1. Handle events
             while (SDL_PollEvent(&e) != 0) {
                 // Quit
                 if (e.type == SDL_EventType::SDL_QUIT) {
-                    _quit = true;
+                    _isRunning = false;
                 }
                 // Others
             }
@@ -81,11 +85,9 @@ namespace MSE {
         close();
     }
 
-    void App::pop() {
-        // TODO
-    }
-
     void App::close() {
+        if (_isRunning) return;
+
         // Destroy window (destroy its surface too)
         SDL_DestroyWindow(_window);
 
