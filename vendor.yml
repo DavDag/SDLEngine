@@ -7,11 +7,4 @@
 # Please add additional test coverage to
 # `test/test_blob.rb#test_vendored` if you make any changes.
 
-## Vendor Conventions ##
-
-# Caches
-- cache/
-
-## External libraries ##
-
-- MySdlEngine/ext/
+- ext/
